@@ -4,12 +4,15 @@ const cors = require('cors');
 const app = express();
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.DATABASE_URL)
 
 // Basic Configuration
 const port = process.env.PORT || 3000;
 
 app.use(cors());
+
+app.use(express.json());
+app.use(express.urlencoded());
 
 app.use('/public', express.static(`${process.cwd()}/public`));
 
@@ -27,21 +30,26 @@ const urlSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  shorturl: {
+  short_url: {
     type: Number,
     required: true
   }
 });
 
-const url = mongoose.model('url', urlSchema);
+const urlModel = mongoose.model('url', urlSchema);
 
 app.route('/api/:shorturl')
 .get(function(req, res) {
     
 }).post(
-  function(req, res) {
-    var shorturl = req.params.shorturl;
-});
+  function(req, done) {
+    var newURL = new urlModel({
+      original_url: req.body.url,
+      short_url: 10
+    });
+    newURL.save();
+  }
+);
 
 app.listen(port, function() {
   console.log(`Listening on port ${port}`);
