@@ -43,7 +43,7 @@ app.route('/api/:shorturl')
     var shorturl = req.params.shorturl;
     var urlQuery = urlModel.find({short_url: shorturl}).exec();
     urlQuery.then(function(doc) {
-      res.redirect(doc[0].original_url)
+      res.redirect(doc[0].original_url);
     });
   }).post(
   function(req, done) {
