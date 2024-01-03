@@ -40,12 +40,18 @@ const urlModel = mongoose.model('url', urlSchema);
 
 app.route('/api/:shorturl')
 .get(function(req, res) {
-    
-}).post(
+    var shorturl = req.params.shorturl;
+    var urlQuery = urlModel.find({short_url: shorturl}).exec();
+    urlQuery.then(function(doc) {
+      res.redirect(doc[0].original_url)
+    });
+  }).post(
   function(req, done) {
+    var maxShortUrl = urlModel.find().sort({short_url: - 1}).short_url;
+    console.log(maxShortUrl);
     var newURL = new urlModel({
       original_url: req.body.url,
-      short_url: 10
+      short_url: 15
     });
     newURL.save();
   }
