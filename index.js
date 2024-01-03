@@ -47,13 +47,15 @@ app.route('/api/:shorturl')
     });
   }).post(
   function(req, done) {
-    var maxShortUrl = urlModel.find().sort({short_url: - 1}).short_url;
-    console.log(maxShortUrl);
-    var newURL = new urlModel({
-      original_url: req.body.url,
-      short_url: 15
+    var maxShortUrl = urlModel.find({__v: 0}).sort({short_url: - 1}).limit(1).exec();
+    maxShortUrl.then(function(doc) {
+      var newShortUrl = doc[0].short_url + 1;
+      var newURL = new urlModel({
+        original_url: req.body.url,
+        short_url: newShortUrl
+      });
+      newURL.save();
     });
-    newURL.save();
   }
 );
 
