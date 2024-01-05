@@ -5,7 +5,7 @@ const app = express();
 const mongoose = require('mongoose');
 const dns = require('node:dns');
 
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.DATABASE_URL)
 
 // Basic Configuration
 const port = process.env.PORT || 3000;
