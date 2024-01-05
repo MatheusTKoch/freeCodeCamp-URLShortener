@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 
-app.use('/public', express.static(`${process.cwd()}/public`));
+app.use(express.static('public'));
 
 app.get('/', function(req, res) {
   res.sendFile(process.cwd() + '/index.html');
