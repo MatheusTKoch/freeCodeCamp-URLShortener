@@ -18,7 +18,7 @@ app.use(express.urlencoded());
 app.use(express.static('public'));
 
 app.get('/', function(req, res) {
-  res.sendFile(process.cwd() + '/index.html');
+  res.sendFile(process.cwd() + 'index.html');
 });
 
 // Your first API endpoint
